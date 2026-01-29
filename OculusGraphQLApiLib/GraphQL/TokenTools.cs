@@ -17,10 +17,10 @@ namespace OculusGraphQLApiLib
                 if(output) Console.WriteLine("You got your token from the wrong place. Go to the payload tab. Don't get it from the url.");
                 return false;
             }
-            if (!token.StartsWith("FRL"))
+            if (!token.StartsWith("FRL") && !token.StartsWith("OC"))
             {
-                Logger.Log("Token doesn't start with FRL");
-                if(output) Console.WriteLine("Tokens must start with 'FRL'. Please get a new one");
+                Logger.Log("Token doesn't start with FRL or OC");
+                if(output) Console.WriteLine("Tokens must start with 'FRL' or 'OC'. Please get a new one");
                 return false;
             }
             if (token.Contains("|"))
