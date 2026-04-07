@@ -11,18 +11,6 @@ namespace OculusGraphQLApiLib.Results
         public string id { get; set; } = "";
         public string version { get; set; } = "";
 
-        public string platform
-        {
-            get
-            {
-                return _platform;
-            }
-            set
-            {
-                if (value != "") _platform = value;
-            }
-        }
-
         private string _platform = "";
 
         public string package_name { get; set; } = null;
@@ -55,16 +43,7 @@ namespace OculusGraphQLApiLib.Results
         public string launch_file_2d { get; set; } = null;
         public string launch_parameters { get; set; } = "";
         public string launch_parameters_2d { get; set; } = null;
-        public string Platform  {
-            get
-            {
-                return _platform;
-            }
-            set
-            {
-                if (value != "") _platform = value;
-            }
-        }
+        public string platform { get; set; } = "";
         public string release_notes_plain_text { get; set; } = "";
         public string required_space { get; set; } = "0";
         public long required_space_numerical { get
