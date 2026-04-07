@@ -25,7 +25,9 @@ namespace OculusGraphQLApiLib
         public static Dictionary<string, string> customHeaders = new Dictionary<string, string>();
         public static JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true
         };
         public delegate void OAuthException(string message);
 
@@ -74,9 +76,9 @@ namespace OculusGraphQLApiLib
         {
             if (retry == retryTimes)
             {
-                if (log) Logger.Log("Retry limit exceeded. Stopping requests");
+                Logger.Log("Retry limit exceeded. Stopping requests");
                 Console.ForegroundColor = ConsoleColor.Red;
-                if (log) Console.WriteLine("Request to Oculus failed. Please try again later and/or contact ComputerElite.");
+                Console.WriteLine("Request to Oculus failed. Please try again later and/or contact ComputerElite.");
                 if (throwException) throw new Exception(status.StartsWith("4") ? "I fuqed up" : "Some Request to Oculus failed so yeah idk how to handle it.");
                 return "{}";
             }
@@ -90,13 +92,13 @@ namespace OculusGraphQLApiLib
                     c.Headers.Add(header.Key, header.Value);
                 }
             }
-            if (log) Logger.Log("Doing POST Request to " + uri + " with args " + options.ToLoggingString());
+            Logger.Log("Doing POST Request to " + uri + " with args " + options.ToLoggingString());
             try
             {
                 string res = "";
                 if (asBody) res = c.UploadString(uri + GetForcedLocale(), "POST", options.ToStringEncoded());
                 else res = c.UploadString(uri + "?" + this.options.ToString() + GetForcedLocale().Replace("?", "&"), "POST", "");
-                if(log) Logger.Log(res);
+                Logger.Log(res);
                 return res;
             }
             catch (WebException e)
@@ -107,7 +109,7 @@ namespace OculusGraphQLApiLib
                     ErrorContainer error = JsonSerializer.Deserialize<ErrorContainer>(response);
                     if (error.error.type.ToLower() == "oauthexception")
                     {
-                        if (log) Logger.Log("OAuthException: " + error.error.message, LoggingType.Error);
+                        Logger.Log("OAuthException: " + error.error.message, LoggingType.Error);
                         OnOAuthException?.Invoke(error.error.message);
                         return "{}";
                     }
