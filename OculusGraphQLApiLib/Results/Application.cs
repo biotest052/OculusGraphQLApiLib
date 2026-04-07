@@ -20,7 +20,7 @@ namespace OculusGraphQLApiLib.Results
         public string display_name { get; set; } = "";
         public Edges<Node<Review>> firstQualityRatings { get; set; } = new Edges<Node<Review>>();
         public List<string> genre_names { get; set; } = new List<string>();
-        public bool has_in_app_ads { get; set; } = false;
+        public bool? has_in_app_ads { get; set; } = false;
         public string id { get; set; } = "";
         public bool is_approved { get; set; } = false;
         public bool is_concept { get; set; } = false; // aka AppLab
@@ -204,6 +204,7 @@ namespace OculusGraphQLApiLib.Results
         APP_IMG_IMMERSIVE_LAYER_LOGO = 13,
         APP_IMG_CUBEMAP_SOURCE = 14,
         APP_IMG_MARKDOWN_INLINE = 15,
+        APP_IMG_ICON_FOREGROUND = 16,
     }
     
     public class ApplicationForApplicationGroupingNodes : Application
